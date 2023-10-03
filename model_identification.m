@@ -61,12 +61,9 @@ for file_id = 1:length(filenames)
         savefig(['ModelIdentificationPlots\ReadData\a' num2str(amp) '_f' num2str(freq) '_wave_' wave '.fig'])
     end
 
+    % Next Action
 
-
-
-
-
-
+    
 
 
 end
