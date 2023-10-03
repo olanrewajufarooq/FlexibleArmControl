@@ -20,6 +20,8 @@ for file_id = 1:length(filenames)
     freq = split(filename{4}, 'f'); freq = freq{2};
     freq = str2num(freq)/10;
 
+    wave = filename{5};
+
     % Load Time and Signal Values from Scope Data
     t = ScopeData.time;
     sigs = ScopeData.signals.values;
@@ -56,10 +58,10 @@ for file_id = 1:length(filenames)
         xlabel('Time [secs]')
         ylabel('alpha [V]')
 
-        savefig(['ModelIdentificationPlots\' filename_orig])
+        savefig(['ModelIdentificationPlots\ReadData\a' num2str(amp) '_f' num2str(freq) '_wave_' wave '.fig'])
     end
 
-    
+
 
 
 
