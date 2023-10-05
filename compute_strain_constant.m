@@ -6,7 +6,6 @@ arguments
     args.plot_selected_data
 end
 
-fig_num = 0;
 
 %% Load Parameters
 load("1_strain_constant.mat", 'tensao_pot')
@@ -18,10 +17,9 @@ Vs = signal_mat(1:end, 3); % Get the strain gauge values
 
 %% Plot the data gathered from lab
 if args.plot_collected_data
-    fig_num = fig_num + 1; % Setting figure number for plot
     
     % Plotting
-    figure(fig_num)
+    figure()
     plot(time_array, Vs)
 
     % Plot readability
@@ -46,9 +44,8 @@ P = polyfit(thetas_e, thetas, 1);                          % Linear Fit
 
 %% Plot the selected data points
 if args.plot_selected_data
-    fig_num = fig_num + 1;
 
-    figure(fig_num)
+    figure()
     scatter(thetas, thetas_e)
     hold on
 

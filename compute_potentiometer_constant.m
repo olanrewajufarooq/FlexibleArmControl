@@ -7,8 +7,6 @@ arguments
     args.plot_selected_data
 end
 
-fig_num = 0;
-
 % Load Parameters
 load("1_potentiometer_constant.mat", 'tensao_pot')
 
@@ -19,10 +17,9 @@ Vs = signal_mat(1:end, 2); % Get the potentiometer values
 
 % Plot the data gathered from lab
 if args.plot_collected_data
-    fig_num = fig_num + 1; % Setting figure number for plot
     
     % Plotting
-    figure(fig_num)
+    figure()
     plot(time_array, Vs)
 
     % Plot readability
@@ -40,9 +37,8 @@ P = polyfit(angles_e, angles, 1);                          % Linear Fit
 
 % Plot the selected data points
 if args.plot_selected_data
-    fig_num = fig_num + 1;
 
-    figure(fig_num)
+    figure()
     scatter(angles, angles_e)
     hold on
 
