@@ -7,15 +7,17 @@ compute_constants;
 %% Model Identification (Computations)
 
 % Plotting Parameters
-plot_plant_data = true;
-plot_comparison_data = true;
+plot_plant_data = false;
+plot_comparison_data = false;
+plot_pole_zero = false;
+plot_visibility = 'off';
 
 filenames=dir('ModelIdentificationData\*.mat');
 
 fileID = fopen('ModelIdentificationLog.txt','w');
 fprintf(fileID,'LOGGINGS');
 
-
+AnalysisResult(length(filenames)) = struct();
 
 for file_id = 1:length(filenames)
     load(['ModelIdentificationData\' filenames(file_id).name], 'ScopeData')
@@ -23,21 +25,29 @@ for file_id = 1:length(filenames)
     % Getting the input amplitude and frequency
     filename = split(filenames(file_id).name, '.'); filename_orig = filename{1};
     filename = split(filename_orig, '_');
+    
+    lab_day = str2double(filename{1});
 
     amp = split(filename{3}, 'a'); amp = amp{2};
-    amp = str2num(amp)/10;
+    amp = str2double(amp)/10;
 
     freq = split(filename{4}, 'f'); freq = freq{2};
-    freq = str2num(freq)/10;
+    freq = str2double(freq)/10;
 
     wave = filename{5};
+    clear filename filename_orig
 
     fprintf(fileID,'\n\nAnalysis for: Amplitude: %1.2f; Frequency: %1.2f; Waveform: %s;\n',amp, freq, wave);
 
     % Load Time and Signal Values from Scope Data
-    t = ScopeData.time;
-    sigs = ScopeData.signals.values;
-    clear ScopeData
+    if lab_day == 2
+        t = ScopeData.time;
+        sigs = ScopeData.signals.values;
+    elseif lab_day == 3
+        t = ScopeData(:, 1);
+        sigs = ScopeData(:, 2:end);
+    end
+    clear ScopeData lab_day
 
     % Removing the first 5 seconds from the data (using array masking)
     time_array = t(t>=5);
@@ -48,6 +58,7 @@ for file_id = 1:length(filenames)
     utrend = signal_array(:, 1); % Motor Excitation Signals
     thetae = signal_array(:, 2); % Potentiometer Signals
     alphae = signal_array(:, 3); % Strain Gage Signals
+    clear signal_array
 
     % Estimating bar tip position
     ytrend = kp*thetae + kb*alphae;
@@ -74,8 +85,9 @@ for file_id = 1:length(filenames)
         sgtitle( sprintf('Amp = %.2fV Freq = %.2fHz %s Wave', amp, freq, wave) )
 
         savefig(['ModelIdentificationPlots\ReadData\a' num2str(amp) '_f' num2str(freq) '_wave_' wave '.fig'])
-        set(fig, 'visible', 'off');
+        set(fig, 'visible', plot_visibility);
     end
+    clear alphae thetae 
 
     % Removing pole at the origin and detrending.
     af = 0.9;
@@ -85,11 +97,12 @@ for file_id = 1:length(filenames)
     yfilter = filter(Bfilt,Afilt,ytrend); % Differentiating and detrending
     yf = medfilt1(yfilter, 10); % Median Filter
 
-    clear af Afilt Bfilt
+    clear af Afilt Bfilt yfilter ytrend
 
     % TODO: Remove the tref average value from the input signal
 
     u = detrend(utrend); % Removing trend from input signal
+    clear utrend
     
     % Model Identification with ARMAX
     z = [yf, u];
@@ -114,6 +127,7 @@ for file_id = 1:length(filenames)
             IdentifStruct(id).yfsim = filter(num1, den1, u);
             IdentifStruct(id).tf_num = num1;
             IdentifStruct(id).tf_den = den1;
+            clear num1 den1
 
             % Computing Root Mean Square Error
             IdentifStruct(id).error = sqrt(mean((yf - IdentifStruct(id).yfsim).^2));
@@ -121,16 +135,20 @@ for file_id = 1:length(filenames)
             fprintf(fileID,'Npoles: %2d. Nzeros: %2d Error: %1.4f.\n',na, nb, IdentifStruct(id).error );
         end
     end
+    clear na nb nc nk nn id
 
     % Select the best model based on RMSE
     min_error = min([(IdentifStruct.error)]);
     min_error_id = find([(IdentifStruct.error)] == min_error, 1, 'first' );
+    clear min_error
 
     % Get the values of yfsim for the best model.
     fprintf(fileID,'\nBest Model: Npoles: %2d. Nzeros: %2d Error: %1.4f.\n', IdentifStruct(min_error_id).pole, IdentifStruct(min_error_id).zero, IdentifStruct(min_error_id).error );
     
     pole = roots(IdentifStruct(min_error_id).tf_den);
     fprintf(fileID, '\nPoles: %1.5f%+fj', real(pole), imag(pole) );
+
+    fprintf(fileID, '\n' );
 
     zero = roots(IdentifStruct(min_error_id).tf_num);
     fprintf(fileID, '\nZeros: %1.5f%+fj', real(zero), imag(zero) );
@@ -148,24 +166,46 @@ for file_id = 1:length(filenames)
         title( sprintf('Amp = %.2fV Freq = %.2fHz %s Wave', amp, freq, wave) )
 
         savefig(['ModelIdentificationPlots\ComparisonPlots\a' num2str(amp) '_f' num2str(freq) '_wave_' wave '.fig'])
-        set(fig, 'visible', 'off');
+        set(fig, 'visible', plot_visibility);
     end
     
     % Poles and Zeros Plots
-    fig = figure();
+    if plot_pole_zero
+        fig = figure();
+        
+        zplane(zero,pole)
+        grid
+        title('Zero-Pole Plot')
     
-    zplane(zero,pole)
-    grid
-    title('Zero-Pole Plot')
+        savefig(['ModelIdentificationPlots\PolesZeros\a' num2str(amp) '_f' num2str(freq) '_wave_' wave '.fig'])
+        set(fig, 'visible', plot_visibility);
+    end
 
-    savefig(['ModelIdentificationPlots\PolesZeros\a' num2str(amp) '_f' num2str(freq) '_wave_' wave '.fig'])
-    set(fig, 'visible', 'off');
+    clear yf u z time_array 
+
+    AnalysisResult(file_id).id = file_id;
+    AnalysisResult(file_id).best_pole = IdentifStruct(min_error_id).pole;
+    AnalysisResult(file_id).best_zero = IdentifStruct(min_error_id).zero;
+    AnalysisResult(file_id).min_error = IdentifStruct(min_error_id).error;
+    AnalysisResult(file_id).error_variance = var([IdentifStruct.error]);
+    AnalysisResult(file_id).poles = [roots(IdentifStruct(min_error_id).tf_den)];
+    AnalysisResult(file_id).zeros = [roots(IdentifStruct(min_error_id).tf_num)];
+    AnalysisResult(file_id).tf_den = IdentifStruct(min_error_id).tf_den;
+    AnalysisResult(file_id).tf_num = IdentifStruct(min_error_id).tf_num;
+    
+    clear min_error_id IdentifStruct zero pole
 
 end
-clear filenames file_id
+clear filenames file_id amp freq wave fig plot_plant_data plot_pole_zero plot_visibility plot_comparison_data
 
 fclose(fileID);
+clear fileID   
 
 %% Model Identification (Selection)
+
+disp(struct2table(AnalysisResult));
+keyboard;
+
+id = 1; % Input the selected here
 
 
