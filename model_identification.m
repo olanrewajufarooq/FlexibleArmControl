@@ -212,10 +212,10 @@ clear fileID max_var
 
 keyboard;
 
-% Input the selected here if another value is desired.
-% id = 1;
-
 %% Conclusive Analysis
+
+% Input the selected here if another value is desired.
+%id = 6;
 
 num_diff = AnalysisResult(id).tf_num;
 den_diff = AnalysisResult(id).tf_den;
