@@ -197,7 +197,7 @@ for file_id = 1:length(filenames)
     clear min_error_id IdentifStruct zero pole
 
 end
-clear filenames file_id amp freq wave fig plot_plant_data plot_pole_zero plot_visibility plot_comparison_data
+clear filenames file_id amp freq wave fig plot_plant_data plot_pole_zero plot_comparison_data
   
 
 %% Model Identification (Selection)
@@ -232,6 +232,19 @@ disp('Poles: '); disp(roots(den))
 
 Ts = 0.002; % Sampling time in seconds
 
+% Obtaining the State Space Model
 [A, B, C, D] = tf2ss(num, den)
 
+% Plotting the Pole and Zero for the final system.
+fig = figure();
 
+zplane(roots(num), roots(den))
+grid
+title('Zero-Pole Plot')
+
+savefig('FinalModelIdentificationPlots\pole_zero.fig')
+set(fig, 'visible', plot_visibility);
+
+
+
+clear plot_visibility

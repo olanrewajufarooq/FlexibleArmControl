@@ -40,17 +40,17 @@ P = polyfit(angles_e, angles, 1);                          % Linear Fit
 if args.plot_selected_data
 
     figure()
-    scatter(angles, angles_e)
+    scatter(angles_e, angles)
     hold on
 
     angles_fit = polyval(P, angles_e);
-    plot(angles_fit, angles_e,'-r')
+    plot(angles_e, angles_fit,'-r')
 
     title('Plot of Tensions against angles (Potentiometer Constant)')
-    xlabel('Angles [deg]')
-    ylabel('Tensions [V]')
-    xticks(linspace(-45, 45, 5))
-    xlim([-45, 45])
+    ylabel('Angles [deg]')
+    xlabel('Tensions [V]')
+    yticks(linspace(-45, 45, 5))
+    ylim([-45, 45])
 
     hold off
     grid

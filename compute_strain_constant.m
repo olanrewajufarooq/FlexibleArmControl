@@ -47,15 +47,15 @@ P = polyfit(thetas_e, thetas, 1);                          % Linear Fit
 if args.plot_selected_data
 
     figure()
-    scatter(thetas, thetas_e)
+    scatter(thetas_e, thetas)
     hold on
 
     thetas_fit = polyval(P, thetas_e);
-    plot(thetas_fit, thetas_e,'-r')
+    plot(thetas_e, thetas_fit,'-r')
 
     title('Plot of Tensions against angles (Deflection Constant)')
-    xlabel('Angles [deg]')
-    ylabel('Tensions [V]')
+    ylabel('Angles [deg]')
+    xlabel('Tensions [V]')
     %xticks(linspace(-45, 45, 5))
     %xlim([-45, 45])
 
