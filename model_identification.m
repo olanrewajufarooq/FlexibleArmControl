@@ -7,9 +7,9 @@ compute_constants;
 %% Model Identification (Computations)
 
 % Plotting Parameters
-plot_plant_data = false;
-plot_comparison_data = false;
-plot_pole_zero = false;
+plot_plant_data = true;
+plot_comparison_data = true;
+plot_pole_zero = true;
 plot_visibility = 'off';
 
 filenames=dir('ModelIdentificationData\*.mat');
@@ -38,6 +38,7 @@ for file_id = 1:length(filenames)
     clear filename filename_orig
 
     fprintf(fileID,'\n\nAnalysis for: Amplitude: %1.2f; Frequency: %1.2f; Waveform: %s;\n',amp, freq, wave);
+    fprintf(fileID,'ID: %d;\n', file_id);
 
     % Load Time and Signal Values from Scope Data
     if lab_day == 2
@@ -197,15 +198,40 @@ for file_id = 1:length(filenames)
 
 end
 clear filenames file_id amp freq wave fig plot_plant_data plot_pole_zero plot_visibility plot_comparison_data
-
-fclose(fileID);
-clear fileID   
+  
 
 %% Model Identification (Selection)
 
 disp(struct2table(AnalysisResult));
+max_var = max([(AnalysisResult.error_variance)]);
+id = find([(AnalysisResult.error_variance)] == max_var, 1, 'first' );
+
+fprintf(fileID,'\n\n\n\nModel with least variance has ID: %d, poles = %d, zeros = %d \n', id, AnalysisResult(id).best_pole, AnalysisResult(id).best_zero);
+fclose(fileID);
+clear fileID max_var
+
 keyboard;
 
-id = 1; % Input the selected here
+% Input the selected here if another value is desired.
+% id = 1;
+
+%% Conclusive Analysis
+
+num_diff = AnalysisResult(id).tf_num;
+den_diff = AnalysisResult(id).tf_den;
+
+% Adding an integrator that was initially removed from the poles.
+
+[num, den] = eqtflength( num_diff, conv(den_diff, [1, -1]) );
+disp('TF Numerator: '); disp(num)
+disp('TF Denominator: '); disp(den)
+
+% Poles and Zeros
+disp('Zeros: '); disp(roots(num))
+disp('Poles: '); disp(roots(den))
+
+Ts = 0.002; % Sampling time in seconds
+
+[A, B, C, D] = tf2ss(num, den)
 
 

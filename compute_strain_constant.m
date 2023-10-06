@@ -27,6 +27,7 @@ if args.plot_collected_data
     xlabel('Time [secs]')
     ylabel('Tensions [V]')
     xlim([0, 30])
+    savefig('ConstantEstimationPlots\strain_data_raw.fig')
 end
 
 %% Obtaining deflection angles
@@ -60,6 +61,7 @@ if args.plot_selected_data
 
     hold off
     grid
+    savefig('ConstantEstimationPlots\strain_data_least_square.fig')
 end
 
 %% Getting the Kb constant

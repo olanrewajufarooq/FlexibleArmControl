@@ -1,27 +1,71 @@
 LOGGINGS
 
-Analysis for: Amplitude: 0.00; Frequency: 0.00; Waveform: repeating;
-Npoles:  3. Nzeros:  1 Error: 0.1598.
-Npoles:  3. Nzeros:  2 Error: 0.1598.
-Npoles:  4. Nzeros:  1 Error: 0.1598.
-Npoles:  4. Nzeros:  2 Error: 0.1598.
-Npoles:  4. Nzeros:  3 Error: 0.1598.
-Npoles:  5. Nzeros:  1 Error: 0.1598.
-Npoles:  5. Nzeros:  2 Error: 0.1598.
-Npoles:  5. Nzeros:  3 Error: 0.1598.
-Npoles:  5. Nzeros:  4 Error: 0.1598.
-Npoles:  6. Nzeros:  1 Error: 0.1598.
-Npoles:  6. Nzeros:  2 Error: 0.1598.
-Npoles:  6. Nzeros:  3 Error: 0.1598.
-Npoles:  6. Nzeros:  4 Error: 0.1598.
-Npoles:  6. Nzeros:  5 Error: 0.1598.
+Analysis for: Amplitude: 0.50; Frequency: 0.40; Waveform: square;
+ID: 1;
+Npoles:  3. Nzeros:  1 Error: 0.0923.
+Npoles:  3. Nzeros:  2 Error: 0.0921.
+Npoles:  4. Nzeros:  1 Error: 0.0922.
+Npoles:  4. Nzeros:  2 Error: 0.0923.
+Npoles:  4. Nzeros:  3 Error: 0.0922.
+Npoles:  5. Nzeros:  1 Error: 0.0923.
+Npoles:  5. Nzeros:  2 Error: 0.0923.
+Npoles:  5. Nzeros:  3 Error: 0.0926.
+Npoles:  5. Nzeros:  4 Error: 0.0925.
+Npoles:  6. Nzeros:  1 Error: 0.0928.
+Npoles:  6. Nzeros:  2 Error: 0.0929.
+Npoles:  6. Nzeros:  3 Error: 0.0929.
+Npoles:  6. Nzeros:  4 Error: 0.0928.
+Npoles:  6. Nzeros:  5 Error: 0.0928.
 
-Best Model: Npoles:  3. Nzeros:  1 Error: 0.1598.
+Best Model: Npoles:  3. Nzeros:  2 Error: 0.0921.
 
-Poles: -0.75225+0.865122j
-Poles: 0.76654+0.000000j
+Poles: 0.89730+0.782830j
+Poles: -0.14783+0.000000j
 Poles: 0.00000+0.000000j
 
-Zeros:  j
+Zeros: 2.81201+0.000000j
 
-Analysis for: Amplitude: 0.80; Frequency: 0.40; Waveform: square;
+Analysis for: Amplitude: 0.50; Frequency: 0.80; Waveform: square;
+ID: 2;
+Npoles:  3. Nzeros:  1 Error: 0.1281.
+Npoles:  3. Nzeros:  2 Error: 0.1277.
+Npoles:  4. Nzeros:  1 Error: 0.1283.
+Npoles:  4. Nzeros:  2 Error: 0.1282.
+Npoles:  4. Nzeros:  3 Error: 0.1281.
+Npoles:  5. Nzeros:  1 Error: 0.1283.
+Npoles:  5. Nzeros:  2 Error: 0.1283.
+Npoles:  5. Nzeros:  3 Error: 0.1282.
+Npoles:  5. Nzeros:  4 Error: 0.1253.
+Npoles:  6. Nzeros:  1 Error: 0.1257.
+Npoles:  6. Nzeros:  2 Error: 0.1254.
+Npoles:  6. Nzeros:  3 Error: 0.1252.
+Npoles:  6. Nzeros:  4 Error: 0.1251.
+Npoles:  6. Nzeros:  5 Error: 0.1252.
+
+Best Model: Npoles:  6. Nzeros:  4 Error: 0.1251.
+
+Poles: -0.70704+0.097341j
+Poles: 0.09734+0.964723j
+Poles: 0.85699+0.640547j
+Poles: 0.00000+0.648453j
+Poles: -0.64845+0.000000j
+Poles: 0.00000+0.000000j
+
+Zeros: -0.20846-0.208457j
+Zeros: 1.14162+2.255270j
+Zeros: -2.25527+0.000000j
+
+Analysis for: Amplitude: 0.50; Frequency: 1.00; Waveform: square;
+ID: 3;
+Npoles:  3. Nzeros:  1 Error: 0.0491.
+Npoles:  3. Nzeros:  2 Error: 0.0528.
+Npoles:  4. Nzeros:  1 Error: 0.0510.
+Npoles:  4. Nzeros:  2 Error: 0.0501.
+Npoles:  4. Nzeros:  3 Error: 0.0523.
+Npoles:  5. Nzeros:  1 Error: 0.0485.
+Npoles:  5. Nzeros:  2 Error: 0.0506.
+Npoles:  5. Nzeros:  3 Error: 0.0498.
+Npoles:  5. Nzeros:  4 Error: 0.0499.
+Npoles:  6. Nzeros:  1 Error: 0.0507.
+Npoles:  6. Nzeros:  2 Error: 0.0501.
+Npoles:  6. Nzeros:  3 Error: 0.0500.

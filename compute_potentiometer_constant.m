@@ -27,6 +27,7 @@ if args.plot_collected_data
     xlabel('Time [secs]')
     ylabel('Tensions [V]')
     xlim([0, 20])
+    savefig('ConstantEstimationPlots\potentiometer_data_raw.fig')
 end
 
 angles = [0, -45, 45, 22.5, -22.5]';
@@ -53,6 +54,7 @@ if args.plot_selected_data
 
     hold off
     grid
+    savefig('ConstantEstimationPlots\potentiometer_data_least_square.fig')
 end
 
 % Getting the Kp
