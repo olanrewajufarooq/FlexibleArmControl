@@ -233,7 +233,7 @@ disp('Poles: '); disp(roots(den))
 Ts = 0.002; % Sampling time in seconds
 
 % Obtaining the State Space Model
-[A, B, C, D] = tf2ss(num, den)
+[A, B, C, D] = tf2ss(num, den);
 
 % Plotting the Pole and Zero for the final system.
 fig = figure();
@@ -245,6 +245,6 @@ title('Zero-Pole Plot')
 savefig('FinalModelIdentificationPlots\pole_zero.fig')
 set(fig, 'visible', plot_visibility);
 
-
-
 clear plot_visibility
+
+save('model_params', 'A', 'B', 'C', 'D', 'num', 'den', 'kb', 'kp')
