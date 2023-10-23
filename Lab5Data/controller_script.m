@@ -1,6 +1,6 @@
 clear; close all; clc
 
-%zero_pot;
+% zero_pot;
 
 % Load Model Identification Parameters
 load('model_params', 'A', 'B', 'C', 'D', 'num', 'den', 'kb', 'kp')
@@ -16,15 +16,15 @@ Ts = 0.001;
 if (rank(ctrb(A, B)) == n_states) && (rank(obsv(A, C)) == n_states)
     % Control Law
     Q = C' * C;
-    R = 100;
+    R = 1000;
 
-    K = dlqr(A, B, Q, R);
+    Kx = dlqr(A, B, Q, R)
 
 
     % Kalman Gain
     G = eye(n_states);
-    Qw = 1000 * eye(6);
-    Rv = 1;
+    Qw = 200 * eye(6);
+    Rv = 10;
     
     M = dlqe(A, G, C, Qw, Rv);
     
@@ -34,18 +34,20 @@ if (rank(ctrb(A, B)) == n_states) && (rank(obsv(A, C)) == n_states)
     Nx = N(1:6, :);
     Nu = N(7, 1);
     
-    Nbar = Nu + K*Nx;
+    Nbar = Nu + Kx*Nx;
 
     % Computing Parameters for the Integrator
     A_aug = [A, zeros(n_states, 1); -C, 1];
     B_aug = [B; 0];
     
-    Q_integrator = 1;
-
+    Q_integrator = 100*1e-7;
     Q_aug = [Q, zeros(n_states, 1); zeros(1, n_states), Q_integrator];
 
-    K_with_integrator = dlqr(A_aug, B_aug, Q_aug, R);
-    Kx_int = K_
+    R_aug = 10000;
+    
+    K_with_integrator = dlqr(A_aug, B_aug, Q_aug, R_aug)
+    Kx_int = K_with_integrator(1:n_states);
+    Ki_int = K_with_integrator(n_states+1);
 
 else
     disp('Plant Not Controllable')
