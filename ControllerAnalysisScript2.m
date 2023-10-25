@@ -84,6 +84,12 @@ grid
 title('Time Response for Step Input (Plant with PI Controller)')
 saveas(gcf,'ResponsePlots\TimeResponse_PI_Controller.png'); 
 
+fig = figure;
+step(feedback(pi_contr_sys, 1), 10)
+grid
+title('Time Response for Step Input (Plant with PI Controller)')
+saveas(gcf,'ResponsePlots\TimeResponse_PI_Controller.png'); 
+
 
 fig = figure;
 bode(feedback(pi_contr_sys, 1))

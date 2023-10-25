@@ -3,9 +3,10 @@ close all; clc;
 % Load Controller Parameters
 load('controller_params')
 
-%% Root Locus
+%% Close Loop Poles and Zeros
 
 % Plant Transfer Fxn
+% C = zeros(size(C));
 plant_sys = ss(A, B, C, D, Ts);
 
 fig = figure;

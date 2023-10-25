@@ -51,8 +51,15 @@ end
 
 % Pre-Filter (Second-Order Filter)
 alpha = 0.8;
+
+% % G(z)
+% NumFilt = (1-alpha);
+% DenFilt = poly(alpha);
+
+% G(z)*G(z)
 NumFilt = (1-alpha)^2;
 DenFilt = poly([alpha alpha]);
+
 
 % Save Data
 save('controller_params')
