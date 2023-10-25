@@ -1,0 +1,14 @@
+close all; clc;
+
+%% Root Locus
+% Load Controller Parameters
+load('controller_params')
+
+% Plant Transfer Fxn
+plant_sys = ss(A, B, C, D, Ts);
+
+fig = figure;
+rlocus(plant_sys)
+sgrid
+title('Root Locus')
+saveas(gcf,'ResponsePlots\RootLocus.png'); 
