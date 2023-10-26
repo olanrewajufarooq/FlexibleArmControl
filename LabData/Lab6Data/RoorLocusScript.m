@@ -6,7 +6,7 @@ load('controller_params')
 %% Close Loop Poles and Zeros
 
 % Plant Transfer Fxn
-C = zeros(C)
+C = zeros(size(C));
 plant_sys = ss(A, B, C, D, Ts);
 
 fig = figure;

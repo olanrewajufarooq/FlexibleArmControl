@@ -1,6 +1,6 @@
 clear; close all; clc
 
-%zero_pot;
+% zero_pot;
 
 % Load Model Identification Parameters
 load('model_params', 'A', 'B', 'C', 'D', 'num', 'den', 'kb', 'kp')
@@ -21,8 +21,8 @@ if (rank(ctrb(A, B)) == n_states) && (rank(obsv(A, C)) == n_states)
 
     % Observer Gain Computation
     G = eye(n_states);
-    Qw = 200 * eye(n_states);
-    Rv = 1000;
+    Qw = 100 * eye(n_states);
+    Rv = 50;
     
     [M, est_ric_soln, est_error_cov, est_poles] = dlqe(A, G, C, Qw, Rv);
     
@@ -39,7 +39,7 @@ if (rank(ctrb(A, B)) == n_states) && (rank(obsv(A, C)) == n_states)
     
     Q_integrator = 100*diag(1e-7);
     Q_aug = [Q, zeros(n_states, n_outputs); zeros(n_outputs, n_states), Q_integrator];
-    R_aug = 1000;
+    R_aug = R;
     
     [K_int, lqr_int_ric_soln, lqr_int_poles] = dlqr(A_aug, B_aug, Q_aug, R_aug);
     Kx_int = K_int(1:n_states);
@@ -59,7 +59,6 @@ alpha = 0.8;
 % G(z)*G(z)
 NumFilt = (1-alpha)^2;
 DenFilt = poly([alpha alpha]);
-
 
 % Save Data
 save('controller_params')
